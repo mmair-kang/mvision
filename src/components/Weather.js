@@ -23,6 +23,7 @@ class Weather extends Component{
     componentDidMount(){
         this.data = () => {
             let url = 'http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4113564000';
+            let url2 = 'http://spreadsheets.google.com/a/google.com/tq?key=117RNobktAAa7bI3nlkelV0F_Jjq6gXCZdSMp5RYQfAM&gid=1959405572';
 
             this.state.weather.list = ['1','2','3','4'];
 
@@ -45,12 +46,12 @@ class Weather extends Component{
 
                     let viewList = viewData.map((item, i) => {
                         return (
-                            <div>
+                            <li>
                                 <span>{item.hour}</span>
                                 <span>{item.type}</span>
                                 <span>{item.temp}</span>
                                 <span>{item.pop}</span>
-                            </div>
+                            </li>
                         );
                     });
 
@@ -63,7 +64,23 @@ class Weather extends Component{
                         }
                     });
 
-                });
+                }
+            );
+
+
+            $.getJSON("https://query.yahooapis.com/v1/public/yql", {
+                q: "select * from json where url='" + url2 + "'",
+                    format      : 'json',
+                    dataType    : 'jsonp',
+                    jsonCompat  : 'new',
+                }, (t) => {
+
+                    console.log(t.query);
+
+
+                }
+            );
+
 
             // let newDate = new Date();
             // let date = {
