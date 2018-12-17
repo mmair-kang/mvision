@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Timer    from '../components/Timer';
 import Weather  from '../components/Weather';
+import Dday     from '../components/Dday';
 
 
 // import Body                 from './Body';
@@ -59,8 +60,12 @@ class App extends Component{
     render(){
         return(
             <div>
-              <Timer />
-              <Weather />
+                {/*
+                    <Timer />
+                    <Weather />
+                    <Dday />
+                */}
+                <Weather />
             </div>
         )
     }

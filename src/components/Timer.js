@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
 
-import { version, Button } from 'antd';
-import "antd/dist/antd.css";
-
-/* Ant Component */
-import { Row, Col } from 'antd';
-
 /* mmair Component */
 
 
@@ -14,10 +8,10 @@ class Timer extends Component{
         super(props);
         this.state = {
             timer: {
-                date: '',
-                week : '',
-                am  : '',
-                time: ''
+                date    : '',
+                week    : '',
+                am      : '',
+                time    : ''
             }
         }
     }
@@ -89,23 +83,19 @@ class Timer extends Component{
           time: { //시간
             color   : '#ffaa00'
           }
-
         }
 
         return (
-          <div style={style.box} >
-
-            <div>
-                <span style={style.date}>{this.state.timer.date} </span>
-                <span style={style.date}>{this.state.timer.week}</span>
+            <div style={style.box} >
+                <div>
+                    <span style={style.date}>{this.state.timer.date} </span>
+                    <span style={style.date}>{this.state.timer.week}</span>
+                    </div>
+                <div>
+                    <span style={style.time}>{this.state.timer.am} </span>
+                    <span style={style.time}>{this.state.timer.time}</span>
+                </div>
             </div>
-            <div>
-                <span style={style.time}>{this.state.timer.am} </span>
-                <span style={style.time}>{this.state.timer.time}</span>
-            </div>
-
-
-          </div>
         );
     }
 }
