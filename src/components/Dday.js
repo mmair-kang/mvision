@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import $                    from 'jquery';
 
-import Highcharts           from 'highcharts'
-import HighchartsReact      from 'highcharts-react-official'
+import ReactHighcharts      from 'react-highcharts';
+import HighchartsMore       from 'highcharts-more';
+import SolidGauge from 'highcharts-solid-gauge';
 
 import * as util    from './../factories/utilFactory';
 
@@ -17,6 +18,10 @@ class Dday extends Component{
                 list: []
             }
         }
+
+        //하이차트 애드온하기
+        HighchartsMore(ReactHighcharts.Highcharts);
+        SolidGauge(ReactHighcharts.Highcharts);
     }
 
     componentDidMount(){
@@ -31,6 +36,10 @@ class Dday extends Component{
 
             this.state.dday.list = ['1','2','3','4'];
 
+
+
+
+
             $.getJSON("https://query.yahooapis.com/v1/public/yql", {
                 q: "select * from json where url='" + url + "'",
                     format: 'json'
@@ -40,25 +49,153 @@ class Dday extends Component{
 
                     var jsonData = t.query.results.json.rows;
                     var viewData = [];
+
                     for ( var fi of jsonData ) {
+
+                        let options = util.blackTheme();
+
+                        options.chart.type = 'solidgauge';
+                        options.title = null;
+                        options.series = [{
+                            name: 'Speed',
+                            data: [parseInt(fi.dday)],
+                            dataLabels: {
+                                format: '<div style="text-align:center"><span style="font-size:40px;color:' +
+                                    ('#ccc') + '">' + fi.title + '</span><br/>' +
+                                       '<span style="font-size:50px;color:#fff">{y}</span></div>'
+                            },
+                            tooltip: {
+                                valueSuffix: ''
+                            }
+                        }];
+                        options.pane = {
+                            center: ['50%', '50%'],
+                            size: '100%',
+                            startAngle: 0,
+                            endAngle: 360,
+                            background: {
+                                backgroundColor: '#222',
+                                innerRadius: '60%',
+                                outerRadius: '100%',
+                                shape: 'arc'
+                            }
+                        };
+
+                        options.tooltip = {
+                            enabled: false
+                        };
+
+                        options.yAxis = {
+                            stops: [
+                                [0.2, '#00ff00'], // green
+                                [0.5, '#ffff00'], // yellow
+                                [0.8, '#ff0000'] // red
+                            ],
+                            lineWidth: 0,
+            				minorTickInterval: null,
+            				tickPixelInterval: 100,
+            				tickWidth: 0,
+            				title		: { enabled: false },
+            				labels		: { enabled:false },
+                            max         : parseInt(fi.max)
+                        };
+                        options.plotOptions = {
+                            solidgauge: {
+                                dataLabels: {
+                                    y: -50,
+                                    borderWidth: 0,
+                                    useHTML: true
+                                },
+                                animation: true
+                            }
+                        };
+
+                        options.credits = {
+            				enabled: false
+            			};
+
+                        console.log(options);
+
                         viewData.push({
                             title   : fi.title,  // 제목
                             max     : fi.max,    // Dday 최대치
                             dday    : fi.dday,   // 지난 Dday
+                            options : options
                         });
+
                     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     // }
                     //
                     //
                     //
+
+
+
+                    let chartStyle = {
+                        float: 'left',
+                        width: '350px'
+                    }
+
+
                     let viewList = viewData.map((item, i) => {
                         console.log(item);
                         return (
-                            <div>
-                                {item.dday}
-                            </div>
+                            <div style={chartStyle}><ReactHighcharts config = {item.options}></ReactHighcharts></div>
                         );
                     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     //
                     this.setState({
                         dday: {
@@ -74,46 +211,6 @@ class Dday extends Component{
 
 
 
-            // let newDate = new Date();
-            // let date = {
-            //     year    : newDate.getFullYear(),
-            //     mon     : newDate.getMonth()+1,
-            //     day     : newDate.getDate(),
-            //     hour    : newDate.getHours(),
-            //     min     : newDate.getMinutes(),
-            //     sec     : newDate.getSeconds(),
-            //
-            //     hour12  : '12',
-            //     am      : 'AM',
-            //     week    : newDate.getDay(),
-            // };
-            //
-            // // 12시간 기준
-            // if ( date.hour < 12 ) {
-            //     date.hour12  = date.hour;
-            //     date.am      = 'AM';
-            // }
-            // else {
-            //     date.hour12  = date.hour - 12;
-            //     date.am      = 'PM';
-            // }
-            //
-            // // 0붙이기
-            // if ( String(date.min).length === 1 ) date.min = '0' + date.min;
-            // if ( String(date.sec).length === 1 ) date.sec = '0' + date.sec;
-            //
-            // // 요일 넣기
-            // var weekArr = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            //
-            // this.setState({
-            //     timer: {
-            //         date: date.year + '. ' + date.mon + '. ' + date.day,
-            //         week : 'SunDay',
-            //         am  : date.am,
-            //         time: date.hour12 + ':' + date.min + ':' + date.sec,
-            //         week: weekArr[date.week]
-            //     }
-            // });
         }
 
         this.loop = setInterval(() => {
@@ -140,35 +237,12 @@ class Dday extends Component{
             },
             dday: { //날짜
                 color   : '#ffff00'
-            },
-            chart: {
-                width: '1080px;',
-                margin: '0 auto'
             }
         };
 
-        const options = {
-          title: {
-            text: 'My chart'
-          },
-          series: [{
-            data: [1, 2, 3]
-            }],
-
-
-
-        }
-
-
         return (
           <div style={style.box} >
-            <div style={style.dday}>안녕{this.state.view.list}</div>
-            <div style={style.chart}>
-                <HighchartsReact
-                  highcharts={Highcharts}
-                  options={options}
-                />
-            </div>
+            <div style={style.dday}>{this.state.view.list}</div>
           </div>
         );
 
