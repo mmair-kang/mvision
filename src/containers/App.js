@@ -65,7 +65,9 @@ class App extends Component{
                     <Weather />
                     <Dday />
                 */}
+                <Timer />
                 <Weather />
+                <Dday />
             </div>
         )
     }

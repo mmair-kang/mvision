@@ -1,3 +1,5 @@
+@import url(http://cdn.jsdelivr.net/font-kopub/1.0/kopubdotum.css);
+
 body {
   margin: 0;
   padding: 0;
@@ -10,11 +12,22 @@ body {
   background: #000;
   color     : #eee;
 
-  font-size: 50pt;
+  font-size : 50pt;
+
+  overflow  :hidden;
 
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+div {
+    font-family: 'KoPub Dotum';
+}
+div:nth-of-type(1) { font-weight: 500; }
+
+
+highcharts-chart::ng-deep {
+  .highcharts-container,
+  .highcharts-container svg {
+     width: 100% !important;
+     height: 100% !important;
+  }
 }

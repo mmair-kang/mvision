@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-
 import $                    from 'jquery';
+
+import Highcharts           from 'highcharts'
+import HighchartsReact      from 'highcharts-react-official'
+
+import * as util    from './../factories/utilFactory';
 
 class Dday extends Component{
     constructor(props){
@@ -16,8 +20,14 @@ class Dday extends Component{
     }
 
     componentDidMount(){
+
+
         this.data = () => {
-            let url = 'http://gsx2json.com/api?id=117RNobktAAa7bI3nlkelV0F_Jjq6gXCZdSMp5RYQfAM&sheet=1';
+
+            let rint = util.randomInt(1, 10000);
+
+
+            let url = 'http://gsx2json.com/api?id=117RNobktAAa7bI3nlkelV0F_Jjq6gXCZdSMp5RYQfAM&sheet=1&dash=' + rint;
 
             this.state.dday.list = ['1','2','3','4'];
 
@@ -25,6 +35,9 @@ class Dday extends Component{
                 q: "select * from json where url='" + url + "'",
                     format: 'json'
                 }, (t) => {
+                    try { if ( t.query.results.json.rows ) {} }
+                    catch(e){return}
+
                     var jsonData = t.query.results.json.rows;
                     var viewData = [];
                     for ( var fi of jsonData ) {
@@ -104,8 +117,9 @@ class Dday extends Component{
         }
 
         this.loop = setInterval(() => {
+            this.data();
 
-        }, 1000000);
+        }, 10000);
 
         this.data();
     }
@@ -118,21 +132,43 @@ class Dday extends Component{
 
     render(){
         let style = {
-          box: {
-              border    : '1px solid #4d4d4d',
-              fontSize  : '50pt',
-              width     : 1080,
-              textAlign : 'center'
+            box: {
+                border    : '1px solid #4d4d4d',
+                fontSize  : '50pt',
+                width     : 1080,
+                textAlign : 'center'
+            },
+            dday: { //날짜
+                color   : '#ffff00'
+            },
+            chart: {
+                width: '1080px;',
+                margin: '0 auto'
+            }
+        };
+
+        const options = {
+          title: {
+            text: 'My chart'
           },
-          dday: { //날짜
-            color   : '#ffff00'
-          }
+          series: [{
+            data: [1, 2, 3]
+            }],
+
+
 
         }
 
+
         return (
           <div style={style.box} >
-            <div style={style.dday}>{this.state.view.list}</div>
+            <div style={style.dday}>안녕{this.state.view.list}</div>
+            <div style={style.chart}>
+                <HighchartsReact
+                  highcharts={Highcharts}
+                  options={options}
+                />
+            </div>
           </div>
         );
 
