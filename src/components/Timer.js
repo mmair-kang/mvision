@@ -54,7 +54,11 @@ class Timer extends Component{
                     date: date.year + '. ' + date.mon + '. ' + date.day,
                     week : 'SunDay',
                     am  : date.am,
-                    time: date.hour12 + ':' + date.min + ':' + date.sec,
+                    // time: date.hour12 + ':' + date.min + ':' + date.sec,
+                    time: {
+                        hour: date.hour12,
+                        min : date.min
+                    },
                     week: weekArr[date.week]
                 }
             });
@@ -70,18 +74,67 @@ class Timer extends Component{
         let style = {
           box: {
               border    : '1px solid #4d4d4d',
-              fontSize  : '70pt',
+              fontSize  : '1.2em',
               width     : 1080,
+              height    : 460,
               textAlign : 'center'
+
           },
           date: { //날짜
-            color   : '#ffff00'
+            color   : '#dddd99'
           },
           day: { // 요일
-            color   : '#ffcc00'
+            color   : '#888'
           },
           time: { //시간
-            color   : '#ffaa00'
+              main: {
+                  // border: '1px solid #fff',
+                  width: '100%',
+                  float: 'left',
+                  textAlign: 'left',
+                  height: 200,
+              },
+              am: { // 12 12
+                  position  : 'absolute',
+                  marginTop : 100,
+                  marginLeft: 50,
+                  width     : 200,
+                  textAlign: 'right',
+                  // border: '1px solid #fff',
+                  color       : '#ffaa00',
+                  fontSize    : '1.2em',
+              },
+              hour: { // 12 12
+                  position  : 'absolute',
+                  marginLeft: 250,
+                  width     : 300,
+                  height    : 300,
+                  textAlign: 'right',
+                  // border: '1px solid #fff',
+                  color       : '#eee',
+                  fontSize    : '2.2em'
+              },
+              colon: { // :
+                  position  : 'absolute',
+                  // border: '1px solid #fff',
+                  marginLeft: 550,
+                  width     : 100,
+                  height    : 300,
+                  textAlign: 'center',
+                  color       : '#666',
+                  fontSize    : '2em'
+              },
+              min: { // 12 12
+                  position  : 'absolute',
+                  // border: '1px solid #fff',
+                  marginLeft: 650,
+                  width     : 300,
+                  height    : 300,
+                  textAlign: 'left',
+                  color       : '#eee',
+                  fontSize    : '2.2em'
+              }
+
           }
         }
 
@@ -89,11 +142,13 @@ class Timer extends Component{
             <div style={style.box} >
                 <div>
                     <span style={style.date}>{this.state.timer.date} </span>
-                    <span style={style.date}>{this.state.timer.week}</span>
+                    <span style={style.day}>{this.state.timer.week}</span>
                     </div>
-                <div>
-                    <span style={style.time}>{this.state.timer.am} </span>
-                    <span style={style.time}>{this.state.timer.time}</span>
+                <div style={style.time.main}>
+                    <div style={style.time.am}>{this.state.timer.am} </div>
+                    <div style={style.time.hour}>{this.state.timer.time.hour}</div>
+                    <div style={style.time.colon}> : </div>
+                    <div style={style.time.min}>{this.state.timer.time.min}</div>
                 </div>
             </div>
         );

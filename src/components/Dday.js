@@ -30,15 +30,9 @@ class Dday extends Component{
         this.data = () => {
 
             let rint = util.randomInt(1, 10000);
-
-
             let url = 'http://gsx2json.com/api?id=117RNobktAAa7bI3nlkelV0F_Jjq6gXCZdSMp5RYQfAM&sheet=1&dash=' + rint;
 
             this.state.dday.list = ['1','2','3','4'];
-
-
-
-
 
             $.getJSON("https://query.yahooapis.com/v1/public/yql", {
                 q: "select * from json where url='" + url + "'",
@@ -54,13 +48,15 @@ class Dday extends Component{
 
                         let options = util.blackTheme();
 
+                        console.log(options);
+
                         options.chart.type = 'solidgauge';
                         options.title = null;
                         options.series = [{
                             name: 'Speed',
                             data: [parseInt(fi.dday)],
                             dataLabels: {
-                                format: '<div style="text-align:center"><span style="font-size:40px;color:' +
+                                format: '<div style="text-align:center"><span style="font-size:30px;color:' +
                                     ('#ccc') + '">' + fi.title + '</span><br/>' +
                                        '<span style="font-size:50px;color:#fff">{y}</span></div>'
                             },
@@ -68,6 +64,8 @@ class Dday extends Component{
                                 valueSuffix: ''
                             }
                         }];
+
+
                         options.pane = {
                             center: ['50%', '50%'],
                             size: '100%',
@@ -89,7 +87,7 @@ class Dday extends Component{
                             stops: [
                                 [0.2, '#00ff00'], // green
                                 [0.5, '#ffff00'], // yellow
-                                [0.8, '#ff0000'] // red
+                                [0.8, '#ff3300'] // red
                             ],
                             lineWidth: 0,
             				minorTickInterval: null,
@@ -97,6 +95,7 @@ class Dday extends Component{
             				tickWidth: 0,
             				title		: { enabled: false },
             				labels		: { enabled:false },
+                            min         : 0,
                             max         : parseInt(fi.max)
                         };
                         options.plotOptions = {
@@ -147,49 +146,16 @@ class Dday extends Component{
 
                     let chartStyle = {
                         float: 'left',
-                        width: '350px'
+                        width: '268px'
                     }
 
 
                     let viewList = viewData.map((item, i) => {
-                        console.log(item);
+                        console.log(item)
                         return (
-                            <div style={chartStyle}><ReactHighcharts config = {item.options}></ReactHighcharts></div>
+                            <div style={chartStyle} key={i}><ReactHighcharts config={item.options}></ReactHighcharts></div>
                         );
                     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

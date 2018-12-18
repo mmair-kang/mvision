@@ -34,6 +34,8 @@ class Weather extends Component{
         this.data = () => {
             let url = 'http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4113564000';
 
+            //미세먼지 http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EC%82%B0%EA%B5%AC&dataTerm=daily&pageNo=1&numOfRows=10&ServiceKey=vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D
+
             $.getJSON("https://query.yahooapis.com/v1/public/yql", {
                 q: "select * from rss where url='" + url + "'",
                     format: "json",
@@ -52,23 +54,24 @@ class Weather extends Component{
                         })
                     }
 
-                    let style = {
-                        hour: {
-                            fontSize    : '30pt',
-                            width       : 100,
-                            textAlign   : 'center'
-                        }
-                    };
-
-
                     let viewHour = viewData.map((item, i) => {
-                        if ( parseInt(item.hour) >= 9 && parseInt(item.hour) <= 18 ) {
-                            style.hour.color = '#ccc'
-                        }
-                        else {
-                            style.hour.color = '#4d4d4d'
-                        }
-                        return <td style={style.hour}>{item.hour}</td>
+                        let style = {
+                            hour: {
+                                fontSize    : '30pt',
+                                width       : 100,
+                                textAlign   : 'center'
+                            }
+                        };
+
+                        let hour = parseInt(item.hour);
+                        if ( hour === 12 )                      style.hour.color = '#ddd';
+                        else if ( hour === 9 || hour === 15)    style.hour.color = '#bbb';
+                        else if ( hour === 6 || hour === 18)    style.hour.color = '#999';
+                        else if ( hour === 3 || hour === 21)    style.hour.color = '#777';
+                        else                                    style.hour.color = '#555';
+
+                        console.log(style.hour.color)
+                        return <td style={style.hour} key={i}>{item.hour}</td>
                     })
 
 
@@ -100,7 +103,7 @@ class Weather extends Component{
                             type = WeatherImage1;
                         }
 
-                        return <td style={style.type}><img src={type} style={style.image} /></td>
+                        return <td style={style.type} key={i}><img src={type} style={style.image} /></td>
                     });
 
                     let viewTemp = viewData.map((item, i) => {
@@ -120,7 +123,7 @@ class Weather extends Component{
                             style.temp.color = '#4444ff';
                         }
 
-                        return <td style={style.temp}>{temp}</td>
+                        return <td style={style.temp} key={i}>{temp}</td>
                     });
 
                     let viewPop = viewData.map((item, i) => {
@@ -139,7 +142,7 @@ class Weather extends Component{
                         else if ( pop < 40 )    style.pop.color = '#5555cc';
                         else if ( pop < 50 )    style.pop.color = '#5555dd';
                         else                    style.pop.color = '#5555ff';
-                        return <td style={style.pop}>{pop}</td>
+                        return <td style={style.pop} key={i}>{pop}</td>
                     });
 
                     this.setState({
