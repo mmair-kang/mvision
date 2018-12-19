@@ -48,8 +48,6 @@ class Dday extends Component{
 
                         let options = util.blackTheme();
 
-                        console.log(options);
-
                         options.chart.type = 'solidgauge';
                         options.title = null;
                         options.series = [{
@@ -113,8 +111,6 @@ class Dday extends Component{
             				enabled: false
             			};
 
-                        console.log(options);
-
                         viewData.push({
                             title   : fi.title,  // 제목
                             max     : fi.max,    // Dday 최대치
@@ -151,7 +147,6 @@ class Dday extends Component{
 
 
                     let viewList = viewData.map((item, i) => {
-                        console.log(item)
                         return (
                             <div style={chartStyle} key={i}><ReactHighcharts config={item.options}></ReactHighcharts></div>
                         );

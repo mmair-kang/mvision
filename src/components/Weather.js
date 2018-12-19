@@ -34,7 +34,20 @@ class Weather extends Component{
         this.data = () => {
             let url = 'http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4113564000';
 
+            let serviceKey = 'vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D';
+
+            let url2 = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EC%82%B0%EA%B5%AC&dataTerm=daily&pageNo=1&numOfRows=10&ServiceKey=' + serviceKey;
+
+
             //미세먼지 http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EC%82%B0%EA%B5%AC&dataTerm=daily&pageNo=1&numOfRows=10&ServiceKey=vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D
+
+            $.getJSON("https://query.yahooapis.com/v1/public/yql", {
+                q: "select * from rss where url='" + url2 + "'",
+                    format: "xml",
+                }, (t) => {
+                    console.log(t);
+                }
+            );
 
             $.getJSON("https://query.yahooapis.com/v1/public/yql", {
                 q: "select * from rss where url='" + url + "'",
@@ -69,8 +82,6 @@ class Weather extends Component{
                         else if ( hour === 6 || hour === 18)    style.hour.color = '#999';
                         else if ( hour === 3 || hour === 21)    style.hour.color = '#777';
                         else                                    style.hour.color = '#555';
-
-                        console.log(style.hour.color)
                         return <td style={style.hour} key={i}>{item.hour}</td>
                     })
 
