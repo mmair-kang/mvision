@@ -36,15 +36,17 @@ class Weather extends Component{
 
             let serviceKey = 'vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D';
 
-            let url2 = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EC%82%B0%EA%B5%AC&dataTerm=daily&pageNo=1&numOfRows=10&ServiceKey=' + serviceKey;
+            let url2 = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=' + serviceKey;
+            url2 += '&numOfRows=10&pageSize=10&pageNo=1&startPage=1&stationName=종로구&dataTerm=DAILY&ver=1.3';
 
 
             //미세먼지 http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EC%82%B0%EA%B5%AC&dataTerm=daily&pageNo=1&numOfRows=10&ServiceKey=vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D
 
             $.getJSON("https://query.yahooapis.com/v1/public/yql", {
-                q: "select * from rss where url='" + url2 + "'",
-                    format: "xml",
+                q: "select * from xml where url='" + url2 + "'",
+                    format: "json",
                 }, (t) => {
+                    console.log('111');
                     console.log(t);
                 }
             );
