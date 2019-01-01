@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import $                    from 'jquery';
 
+import * as util    from './../factories/utilFactory';
+
 import WeatherImage1 from '../assets/image/weather1.png';
 import WeatherImage2 from '../assets/image/weather2.png';
 import WeatherImage3 from '../assets/image/weather3.png';
@@ -32,24 +34,9 @@ class Weather extends Component{
 
     componentDidMount(){
         this.data = () => {
-            let url = 'http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4113564000';
+            let rint = util.randomInt(1, 10000);
+            let url = 'http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=4113564000&' + rint;
 
-            let serviceKey = 'vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D';
-
-            let url2 = 'http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?serviceKey=' + serviceKey;
-            url2 += '&numOfRows=10&pageSize=10&pageNo=1&startPage=1&stationName=종로구&dataTerm=DAILY&ver=1.3';
-
-
-            //미세먼지 http://openapi.airkorea.or.kr/openapi/services/rest/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty?stationName=%EC%9A%A9%EC%82%B0%EA%B5%AC&dataTerm=daily&pageNo=1&numOfRows=10&ServiceKey=vaCdg8CmePABUXN3SEnFxAeSdVtPl7JcE5e1gGLo2zRS8yUJ3DnkANdi1%2F1%2BA93bji%2B1o2I9RRKKRFdYjnOqSQ%3D%3D
-
-            $.getJSON("https://query.yahooapis.com/v1/public/yql", {
-                q: "select * from xml where url='" + url2 + "'",
-                    format: "json",
-                }, (t) => {
-                    console.log('111');
-                    console.log(t);
-                }
-            );
 
             $.getJSON("https://query.yahooapis.com/v1/public/yql", {
                 q: "select * from rss where url='" + url + "'",

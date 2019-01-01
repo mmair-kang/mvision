@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Timer    from '../components/Timer';
 import Weather  from '../components/Weather';
+import Air      from '../components/Air';
 import Dday     from '../components/Dday';
 
 
@@ -67,6 +68,7 @@ class App extends Component{
                 */}
                 <Timer />
                 <Weather />
+                <Air />
                 <Dday />
             </div>
         )

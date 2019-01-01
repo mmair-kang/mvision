@@ -80,16 +80,21 @@ class Timer extends Component{
               textAlign : 'center'
 
           },
-          date: { //날짜
+          date: {
+              position  : 'relative',
+              width     : '50%'
+          },
+          date1: { //날짜
+
             color   : '#dddd99'
           },
-          day: { // 요일
+          date2: { // 요일
             color   : '#888'
           },
           time: { //시간
               main: {
                   // border: '1px solid #fff',
-                  width: '100%',
+                  width: '50%',
                   float: 'left',
                   textAlign: 'left',
                   height: 200,
@@ -140,9 +145,9 @@ class Timer extends Component{
 
         return (
             <div style={style.box} >
-                <div>
-                    <span style={style.date}>{this.state.timer.date} </span>
-                    <span style={style.day}>{this.state.timer.week}</span>
+                <div style={style.date}>
+                    <span style={style.date1}>{this.state.timer.date} </span>
+                    <span style={style.date2}>{this.state.timer.week}</span>
                     </div>
                 <div style={style.time.main}>
                     <div style={style.time.am}>{this.state.timer.am} </div>
